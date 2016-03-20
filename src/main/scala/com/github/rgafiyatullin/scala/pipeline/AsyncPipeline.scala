@@ -14,7 +14,7 @@ abstract class AsyncPipeline[+I, +O, E](implicit ec: ExecutionContext) {
         case Ok(intermediate) =>
           process(intermediate)
         case Err(e) =>
-          Future{ Err(e) }
+          Future.successful(Err(e))
       }
     }
 }
@@ -32,5 +32,5 @@ object AsyncPipeline {
     }
 
   def fromUnit[E](implicit ec: ExecutionContext) =
-    fromValue[Unit, E](Future{ () })
+    fromValue[Unit, E](Future.successful( () ))
 }
